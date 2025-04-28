@@ -14,10 +14,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install sqlcmd on macOS
-        if: runner.os == 'macOS'
         run: |
-          brew install msodbcsql18 mssql-tools18
+          brew update
+          arch -arm64 brew install msodbcsql18 mssql-tools18
+          brew link mssql-tools18
 
       - name: Run SQL Script
         run: |
-          /opt/mssql-tools18/bin/sqlcmd -S ${{ secrets.DB_SERVER }} -d ${{ secrets.DB_NAME }} -U ${{ secrets.DB_USERNAME }} -P ${{ secrets.DB_PASSWORD }} -i sql/001_create_tables.sql
+          /opt/homebrew/bin/sqlcmd -S ${{ secrets.DB_SERVER }} -d ${{ secrets.DB_NAME }} -U ${{ secrets.DB_USERNAME }} -P ${{ secrets.DB_PASSWORD }} -i sql/001_create_tables.sql
