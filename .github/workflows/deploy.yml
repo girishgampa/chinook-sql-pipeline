@@ -9,16 +9,12 @@ jobs:
   deploy-sql:
     runs-on: ubuntu-latest
 
+    container:
+      image: mcr.microsoft.com/mssql-tools
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install sqlcmd
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          sudo curl -o /etc/apt/sources.list.d/mssql-release.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
-          sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc-dev
 
       - name: Run SQL Script
         run: |
