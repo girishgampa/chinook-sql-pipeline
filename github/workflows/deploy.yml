@@ -1,0 +1,23 @@
+name: Deploy SQL Scripts to SQL Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-sql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install sqlcmd
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mssql-tools unixodbc-dev
+
+      - name: Run SQL Script
+        run: |
+          sqlcmd -S ${{ secrets.DB_SERVER }} -d ${{ secrets.DB_NAME }} -U ${{ secrets.DB_USERNAME }} -P ${{ secrets.DB_PASSWORD }} -i sql/001_create_tables.sql
