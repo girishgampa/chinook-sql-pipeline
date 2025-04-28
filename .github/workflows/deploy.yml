@@ -16,8 +16,9 @@ jobs:
       - name: Install sqlcmd on macOS
         run: |
           brew update
+          export ACCEPT_EULA=Y
           arch -arm64 brew install msodbcsql18 mssql-tools18
-          brew link mssql-tools18
+          brew link --overwrite mssql-tools18
 
       - name: Run SQL Script
         run: |
